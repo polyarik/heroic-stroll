@@ -1,0 +1,49 @@
+@font-face {
+    font-family: 'px-font-1';
+    src: url('../../../../fonts/px-font-1.ttf');
+}
+
+@font-face {
+    font-family: 'px-font-2';
+    src: url('../../../../fonts/px-font-2.ttf');
+}
+
+html,
+body {
+	height: 100%;
+	width: 100%;
+
+	margin: 0px;
+	overflow: hidden;
+
+	background-color: black;
+
+	font-family: Px_font_1;
+}
+
+#content {
+	z-index: 1;
+	position: absolute;
+
+	width: 100%;
+	height: 100%;
+}
+
+.game-field {
+	z-index: 2;
+	position: relative;
+
+	/*display: flex;
+	align-items: center;
+	justify-content: center;*/
+}
+
+.pixelated {
+	-ms-interpolation-mode: nearest-neighbor;
+	image-rendering: -webkit-optimize-contrast;
+	image-rendering: -moz-crisp-edges;
+	image-rendering: -o-crisp-edges;
+	image-rendering: -webkit-crisp-edges;
+	image-rendering: pixelated;
+	image-rendering: crisp-edges;
+}
