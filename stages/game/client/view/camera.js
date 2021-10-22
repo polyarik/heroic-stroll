@@ -69,7 +69,7 @@ class Camera {
 					if (big_maps['map_zones'][y + coordinates['y']]?.[x + coordinates['x']]) {
 						map_zones[y][x] = big_maps['map_zones'][y + coordinates['y']][x + coordinates['x']];
 						map_ground[y][x] = big_maps['map_ground'][y + coordinates['y']][x + coordinates['x']];
-						map_objects[y][x] = big_maps['map_objects'][y + coordinates['y']][x + coordinates['x']];
+						map_objects[y][x] = big_maps['map_objects'][y + coordinates['y']]?.[x + coordinates['x']] || null;
 					} else {
 						map_zones[y][x] = null;
 						map_ground[y][x] = null;

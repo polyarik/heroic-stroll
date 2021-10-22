@@ -29,11 +29,13 @@ function getMaps($width, $height) {
 	$groundMapChunk = array();
 	$objectMapChunk = array();
 
-	for ($y = $chunkY; $y < $chunkY + $height; $y++) {
-		for ($x = $chunkX; $x < $chunkX + $width; $x++) {
+	for ($y = $chunkY; $y < $chunkY + $height + 1; $y++) {
+		for ($x = $chunkX; $x < $chunkX + $width + 1; $x++) {
 			$zoneMapChunk[$y][$x] = $zoneMap[$y][$x];
 			$groundMapChunk[$y][$x] = $groundMap[$y][$x];
-			$objectMapChunk[$y][$x] = $objectMap[$y][$x];
+
+			if ( $objectMap[$y][$x])
+				$objectMapChunk[$y][$x] = $objectMap[$y][$x];
 		}
 	}
 

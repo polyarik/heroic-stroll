@@ -133,8 +133,9 @@ class GameField {
 				if (maps) {
 					maps['map_objects'] = this.interpretObjects( maps['map_objects'] );
 					this.maps = maps;
-
 					this.drawMaps();
+
+					this.updateMaps(); // with reserve
 				}
 			} else {
 				const reserve = 10;
