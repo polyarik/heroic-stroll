@@ -63,7 +63,7 @@ class GameField {
 		const w_size = +this.parent_elem.css("width").replace("px", "") / this.width;
 		const h_size = +this.parent_elem.css("height").replace("px", "") / this.height;
 
-		return Math.max(Math.min(w_size, h_size), 40);
+		return Math.floor(Math.max(Math.min(w_size, h_size), 40));
 	}
 
 	async updateMaps() {

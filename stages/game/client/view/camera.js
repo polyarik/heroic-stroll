@@ -19,14 +19,15 @@ class Camera {
 	}
 
 	setPixelated() {
-		this.game_field.canvas_context['imageSmoothingEnabled'] = false;
-		this.game_field.canvas_context['mozImageSmoothingEnabled'] = false;
-		this.game_field.canvas_context['oImageSmoothingEnabled'] = false;
-		this.game_field.canvas_context['webkitImageSmoothingEnabled'] = false;
-		this.game_field.canvas_context['msImageSmoothingEnabled'] = false;
+		this.game_field.canvas_context.webkitImageSmoothingEnabled = false;
+		this.game_field.canvas_context.mozImageSmoothingEnabled = false;
+		this.game_field.canvas_context.oImageSmoothingEnabled = false;
+		this.game_field.canvas_context.msImageSmoothingEnabled = false;
+		this.game_field.canvas_context.imageSmoothingEnabled = false;
 	}
 
 	startRender() {
+		this.setPixelated();
 		this.render();
 	}
 
@@ -209,8 +210,8 @@ class Camera {
 
 		const tile_size = this.temp_data['rendering']['data']['tile_size'];
 
-		const shift = (image.height - 64) * tile_size/64; // for tall images (> 1 tile)
-		const image_height = image.height/64 * tile_size;
+		const shift = Math.floor((image.height - 64) * tile_size/64); // for tall images (> 1 tile)
+		const image_height = Math.floor(image.height/64 * tile_size);
 
 		if (type == "objects") {
 			let transparency = false;
