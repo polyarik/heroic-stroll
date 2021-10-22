@@ -215,9 +215,9 @@ class GameField {
 		const result = await this.communicator.eraseWorld();
 		
 		if (result) {
-			this.maps = undefined;
 			await this.hero.updateStats();
 
+			this.maps = undefined;
 			await this.updateMaps();
 
 			this.setWorldSize();

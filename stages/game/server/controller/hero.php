@@ -59,9 +59,9 @@ function moveHero($x, $y) {
 
 		if ($_SESSION['maps']['objects'][$y] && $_SESSION['maps']['objects'][$y][$x]) {
 			$tile = $_SESSION['maps']['objects'][$y][$x];
-			$objName = $mapInterpreter['objects'][$num];
+			$objName = $mapInterpreter['objects'][$tile];
 			$objPresets = Constants::getObjPresets();
-			$objPreset = $obj_presets[$obj_name];
+			$objPreset = $objPresets[$objName];
 			$obj = new Obj($objPreset);
 
 			if ($obj->solid)

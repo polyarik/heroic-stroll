@@ -19,7 +19,6 @@ class Camera {
 	}
 
 	setPixelated() {
-		ctx.imageSmoothingEnabled = false;
 		this.game_field.canvas_context['imageSmoothingEnabled'] = false;
 		this.game_field.canvas_context['mozImageSmoothingEnabled'] = false;
 		this.game_field.canvas_context['oImageSmoothingEnabled'] = false;
