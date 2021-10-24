@@ -5,7 +5,15 @@ class Constants {
 		$mapInterpreter = array(
 			'zones' => array(null => 0, 0 => 0, 1 => 'forest'),
 			'ground' => array(null => 0, 0 => 0, 1 => 'grass', 2 => 'overgrownGrass'),
-			'objects' => array(null => 0, 0 => 0, 1 => 'healthPotion', 2 => 'manaPotion', 3 => 'staminaPotion', 4 => 'stump', 5 => 'bush', 6 => 'tree')
+			'objects' => array(
+				null => 0, 0 => 0,
+				1 => 'healthPotion',
+				2 => 'manaPotion',
+				3 => 'staminaPotion',
+				4 => 'expPotion',
+				5 => 'stump',
+				6 => 'bush',
+				7 => 'tree')
 		);
 
 		return $mapInterpreter;
@@ -59,6 +67,18 @@ class Constants {
 			)
 		);
 
+		$expPotion = array(
+			'name' => 'expPotion',
+			'values' => array(
+				'collectability' => array(
+					'toStat' => array(
+						'stat' => 'exp',
+						'value' => 15
+					)
+				)
+			)
+		);
+
 		$stump = array(
 			'name' => 'stump',
 			'values' => array(
@@ -81,6 +101,7 @@ class Constants {
 			'healthPotion' => $healthPotion,
 			'manaPotion' => $manaPotion,
 			'staminaPotion' => $staminaPotion,
+			'expPotion' => $expPotion,
 			'stump' => $stump,
 			'bush' => $bush,
 			'tree' => $tree
