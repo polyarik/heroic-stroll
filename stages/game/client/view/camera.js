@@ -2,8 +2,6 @@ class Camera {
 	constructor(game_field) {
 		this.game_field = game_field;
 		this.image_loader = new ImageLoader(this);
-		
-		this.setPixelated();
 
 		this.images = {};
 		this.interpreter = this.game_field.get_map_interpreter;
@@ -31,25 +29,18 @@ class Camera {
 		this.render();
 	}
 
-	render() {
-		if (
-			!this.temp_data['rendering']['status']['rendering_field']['ground']
-			|| !this.temp_data['rendering']['status']['rendering_field']['creatures']
-			|| !this.temp_data['rendering']['status']['rendering_field']['objects']
-		) {
-			this.renderField();
-		} else if ( !this.temp_data['rendering']['status']['rendering_gui'] ) {
-			this.renderGUI();
-		} else {
-			this.temp_data['rendering'] = {
-				'status': {
-					'rendering_field': {'ground': false, 'creatures': false, 'objects': false}, 'rendering_gui': false},
-				'data': {}
-			};
-		}
+	async render() {
+		await this.renderField();
+		this.renderGUI();
+
+		this.temp_data['rendering'] = {
+			'status': {
+				'rendering_field': {'ground': false, 'creatures': false, 'objects': false}, 'rendering_gui': false},
+			'data': {}
+		};
 	}
 
-	renderField() {
+	async renderField() {
 		if ( !this.temp_data['rendering']['data']['maps'] ) {
 			const big_maps = this.game_field.get_maps;
 			const field_size = this.game_field.field_size;
@@ -84,13 +75,12 @@ class Camera {
 			this.temp_data['rendering']['data']['maps']['map_objects'] = map_objects;
 		}
 
-		if ( this.temp_data['rendering']['status']['rendering_field']['ground'] )
-			this.renderСreatures();
-		else
-			this.drawImages();
+		await this.drawImages(); // ground
+		await this.renderСreatures();
+		await this.drawImages(); // objects
 	}
 
-	drawImages() {
+	async drawImages() {
 		//TODO: rewrite!
 
 		const map_zones = this.temp_data['rendering']['data']['maps']['map_zones'];
@@ -116,12 +106,7 @@ class Camera {
 			if (y != start_y) start_x = 0;
 
 			for (let x = start_x, width = map_zones[y].length; x < width; x++) {
-				let tile_data;
-
-				if (rendering_type == "objects")
-					tile_data = map_objects[y][x];
-				else
-					tile_data = map_ground[y][x];
+				const tile_data = (rendering_type == "objects") ? map_objects[y]?.[x] : map_ground[y][x];
 
 				if (tile_data) {
 					this.temp_data['rendering']['data']['position'] = {'x': x, 'y': y};
@@ -132,8 +117,7 @@ class Camera {
 						this.temp_data['rendering']['data']['load_images'] = {};
 						this.temp_data['rendering']['data']['load_images']['folder'] = zone;
 
-						this.image_loader.loadImages( this.temp_data['rendering']['data']['load_images']['folder'] );
-						return;
+						await this.image_loader.loadImages( this.temp_data['rendering']['data']['load_images']['folder'] );
 					}
 
 					const folder = zone + "/" + rendering_type; // folder with ground/objects images
@@ -148,20 +132,11 @@ class Camera {
 			}
 		}
 
-		if (rendering_type == "ground") {
-			delete this.temp_data['rendering']['data']['position'];
-
-			this.temp_data['rendering']['status']['rendering_field']['ground'] = true;
-			this.renderСreatures();
-		} else if (rendering_type == "objects") {
-			delete this.temp_data['rendering']['data']['position'];
-
-			this.temp_data['rendering']['status']['rendering_field']['objects'] = true;
-			this.renderGUI();
-		}
+		delete this.temp_data['rendering']['data']['position'];
+		this.temp_data['rendering']['status']['rendering_field'][rendering_type] = true;
 	}
 
-	renderСreatures() {
+	async renderСreatures() {
 		if ( !this.images['creatures'] ) this.images['creatures'] = {};
 
 		this.temp_data['rendering']['data']['creatures'] = [this.game_field.hero]; // all loaded creatures (only hero by now)
@@ -175,8 +150,7 @@ class Camera {
 				this.temp_data['rendering']['data']['load_images'] = {};
 				this.temp_data['rendering']['data']['load_images']['folder'] = `creatures/${stats['race']}/${stats['type']}`;
 
-				this.image_loader.loadImages( this.temp_data['rendering']['data']['load_images']['folder'] );
-				return;
+				await this.image_loader.loadImages( this.temp_data['rendering']['data']['load_images']['folder'] );
 			}
 
 			const folder = `creatures/${stats['race']}/${stats['type']}/${stats['direction']}`; // folder with creature images
@@ -186,7 +160,7 @@ class Camera {
 		}
 
 		this.temp_data['rendering']['status']['rendering_field']['creatures'] = true;
-		this.drawImages(); // render objects
+		return true;
 	}
 
 	drawImage(x, y, type, folder, image_name) {

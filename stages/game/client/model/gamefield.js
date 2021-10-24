@@ -145,7 +145,7 @@ class GameField {
 						maps['map_objects'] = this.interpretObjects( maps['map_objects'] );
 						this.maps = maps;
 
-						this.drawMaps();
+						//this.drawMaps();
 					}
 				});
 			}
@@ -169,13 +169,13 @@ class GameField {
 		return map_objects;
 	}
 
-	drawMaps() {
-		this.camera.startRender();
-	}
-
 	resizeWindow() {
 		this.setField();
 		this.drawMaps();
+	}
+
+	drawMaps() {
+		this.camera.startRender();
 	}
 
 	initEvents() {

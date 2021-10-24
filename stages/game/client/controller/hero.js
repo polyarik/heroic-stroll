@@ -25,7 +25,7 @@ class Hero {
 
 			const zone = map_interpreter['zones'][maps['map_zones'][y][x]];
 			const ground = map_interpreter['ground'][maps['map_ground'][y][x]];
-			const object = maps['map_objects'][y][x];
+			const object = maps['map_objects'][y]?.[x];
 
 			if (object?.solid) return false;
 
