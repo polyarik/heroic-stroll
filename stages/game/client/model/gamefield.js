@@ -53,9 +53,17 @@ class GameField {
 	}
 
 	setCanvas() {
-		this.canvas.width = +$("#game-field-" + this.name).css("width").replace("px", "");
-		this.canvas.height = +$("#game-field-" + this.name).css("height").replace("px", "");
+		const width = $("#game-field-" + this.name).css("width");
+		const height = $("#game-field-" + this.name).css("height");
+		const scale = window.devicePixelRatio;
 
+		this.canvas.style.width = width;
+		this.canvas.style.height = height;
+
+		this.canvas.width = Math.floor(+width.replace("px", "") * scale);
+		this.canvas.height = Math.floor(+height.replace("px", "") * scale);
+
+		this.canvas_context.scale(scale, scale);
 		this.canvas_context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	}
 
